@@ -11,6 +11,7 @@ namespace NameSplitter.Core.Models
         public NameFillingWord()
         {
             Id = Guid.NewGuid().ToString();
+            FillingWord = string.Empty;
         }
         public string Id { get; set; }
         public string FillingWord { get; set; }

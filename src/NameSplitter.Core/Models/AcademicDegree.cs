@@ -9,7 +9,8 @@ namespace NameSplitter.Core.Models
     public enum AcademicDegree
     {
         None = 0,
-        Doctor = 1,
-        Professor = 2,
+        Doctor = 10,
+        Professor = 20,
+        Royal = 30
     }
 }

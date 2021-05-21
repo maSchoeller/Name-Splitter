@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using NameSplitter.View.ViewModels;
+
 namespace NameSplitter.View
 {
     /// <summary>
@@ -22,6 +24,7 @@ namespace NameSplitter.View
     {
         public MainWindow()
         {
+            DataContext = new MainViewModel();
             InitializeComponent();
         }
     }

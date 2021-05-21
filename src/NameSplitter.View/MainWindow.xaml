@@ -8,6 +8,9 @@
         Title="Triple X | Kontaktsplitter" 
         Height="550" Width="900"
         MinHeight="550" MinWidth="800">
+    <Window.Resources>
+        <local:EnumValuteConverter x:Key="EnumConveter" />
+    </Window.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" 
               Orientation="Horizontal"
@@ -30,7 +33,7 @@
                          FontSize="15"
                          Padding="5,0"
                          VerticalContentAlignment="Center"
-                         Text="" />
+                         Text="{Binding Analyse.Input}" />
                 <Button Margin="10,0,0,0"
                         Padding="10,5"
                         FontSize="15"
@@ -100,7 +103,7 @@
                             <Setter Property="FontSize" Value="15" />
                         </Style>
                     </TabControl.Resources>
-                    <TabItem>
+                    <TabItem DataContext="{Binding SalutationViewModel}">
                         <TabItem.Header>
                             <Label Content="Anrede" />
                         </TabItem.Header>
@@ -113,12 +116,16 @@
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="30"/>
                                 </Grid.ColumnDefinitions>
-
                                 <ComboBox Grid.Column="1"
-                                          Margin="5"/>
+                                          Margin="5"
+                                          ItemsSource="{Binding Salutations}"
+                                          DisplayMemberPath="Display"
+                                          SelectedValuePath="Key"
+                                          SelectedValue="{Binding SelectedSalutationKey}"/>
                                 <Button Content="Löschen" 
                                         Grid.Column="2" 
-                                        Margin="5"/>
+                                        Margin="5"
+                                        Command="{Binding DeleteCommand}"/>
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -148,6 +155,7 @@
                                    FontSize="15"
                                    Content="Anrede:" />
                                 <TextBox Grid.Row="1"
+                                     Text="{Binding Salutation, UpdateSourceTrigger=PropertyChanged}"
                                      Grid.Column="2"
                                      Margin="4"
                                      Padding="3"/>
@@ -156,16 +164,32 @@
                                    FontSize="15"
                                    Content="Sprache:" />
                                 <ComboBox Grid.Row="2"
+                                      ItemsSource="{Binding Languages}"
                                       Grid.Column="2"
                                       Margin="4"
-                                      Padding="5"/>
+                                      Padding="5"
+                                      SelectedItem="{Binding SelectedLanguage}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource EnumConveter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
                                 <Label Grid.Row="3"
                                    Grid.Column="1"
                                    FontSize="15"
                                    Content="Geschlecht:" />
                                 <ComboBox Grid.Column="2"
                                       Grid.Row="3"
-                                      Margin="4"/>
+                                      Margin="4"
+                                      ItemsSource="{Binding Genders}"
+                                      SelectedItem="{Binding SelectedGender}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource EnumConveter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
 
                                 <Label Grid.Row="4"
                                    Grid.Column="1"
@@ -173,18 +197,32 @@
                                    Content="Form:" />
                                 <ComboBox Grid.Column="2"
                                       Grid.Row="4"
-                                      Margin="4"/>
-
+                                      Margin="4"
+                                      ItemsSource="{Binding Forms}"
+                                      SelectedItem="{Binding SelectedForm}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource EnumConveter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Label Content="{Binding SaveError}" 
+                                       Grid.Row="5"
+                                       Grid.Column="1"
+                                       FontSize="15"
+                                       Padding="5,10"
+                                       Foreground="Red" />
                                 <Button Grid.Column="2"
                                     Grid.Row="5"
                                     Margin="10"
                                     Padding="5"
                                     HorizontalAlignment="Right"
+                                    Command="{Binding SaveCommand}"
                                     Content="Hinzufügen" />
                             </Grid>
                         </DockPanel>
                     </TabItem>
-                    <TabItem >
+                    <TabItem DataContext="{Binding TitleViewModel}">
                         <TabItem.Header>
                             <Label Content="Titel" />
                         </TabItem.Header>
@@ -198,10 +236,15 @@
                                 </Grid.ColumnDefinitions>
 
                                 <ComboBox Grid.Column="1"
-                                          Margin="5"/>
-                                <Button Content="Löschen" 
+                                          Margin="5"
+                                          ItemsSource="{Binding Titles}"
+                                          SelectedValue="{Binding SelectedTitleKey}"
+                                          DisplayMemberPath="Display"
+                                          SelectedValuePath="Key"/>
+                                <Button Content="Löschen"
                                         Grid.Column="2" 
-                                        Margin="5"/>
+                                        Margin="5"
+                                        Command="{Binding DeleteCommand}"/>
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -218,48 +261,69 @@
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <Label 
-                                Grid.Column="1"
-                                Grid.ColumnSpan="2"
-                                Content="Titel Datensätze anpassen"
-                                FontSize="20"
-                                Foreground="Chocolate"
-                                HorizontalAlignment="Center"
-                                />
+                                <Label Grid.Column="1"
+                                       Grid.ColumnSpan="2"
+                                       Content="Titel Datensätze anpassen"
+                                       FontSize="20"
+                                       Foreground="Chocolate"
+                                       HorizontalAlignment="Center"/>
                                 <Label Grid.Row="1"
-                                   Grid.Column="1"
-                                   FontSize="15"
-                                   Content="Titel:" />
+                                       Grid.Column="1"
+                                       FontSize="15"
+                                       Content="Titel:" />
                                 <TextBox Grid.Row="1"
-                                     Grid.Column="2"
-                                     Margin="4"
-                                     Padding="3"/>
+                                         Grid.Column="2"
+                                         Margin="4"
+                                         Padding="3"
+                                         Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
                                 <Label Grid.Row="2"
-                                   Grid.Column="1"
-                                   FontSize="15"
-                                   Content="Sprache:" />
+                                       Grid.Column="1"
+                                       FontSize="15"
+                                       Content="Sprache:" />
                                 <ComboBox Grid.Row="2"
-                                      Grid.Column="2"
-                                      Margin="4"
-                                      Padding="5"/>
+                                          Grid.Column="2"
+                                          Margin="4"
+                                          Padding="5"
+                                          ItemsSource="{Binding Languages}"
+                                          SelectedItem="{Binding SelectedLanguage}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource EnumConveter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
                                 <Label Grid.Row="3"
-                                   Grid.Column="1"
-                                   FontSize="13"
-                                   Content="Akademischer Grad:" />
+                                       Grid.Column="1"
+                                       FontSize="13"
+                                       Content="Akademischer Grad:" />
                                 <ComboBox Grid.Column="2"
-                                      Grid.Row="3"
-                                      Margin="4"/>
+                                          Grid.Row="3"
+                                          Margin="4"
+                                          ItemsSource="{Binding AcademicDegrees}"
+                                          SelectedItem="{Binding SelectedAcademicDegree}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource EnumConveter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
 
+                                <Label Content="{Binding SaveError}" 
+                                       Grid.Row="5"
+                                       Grid.Column="1"
+                                       Padding="5,10"
+                                       Foreground="Red" />
                                 <Button Grid.Column="2"
-                                    Grid.Row="5"
-                                    Margin="10"
-                                    Padding="5"
-                                    HorizontalAlignment="Right"
-                                    Content="Hinzufügen" />
+                                        Grid.Row="5"
+                                        Margin="10"
+                                        Padding="5"
+                                        HorizontalAlignment="Right"
+                                        Content="Hinzufügen"
+                                        Command="{Binding SaveCommand}"/>
                             </Grid>
                         </DockPanel>
                     </TabItem>
-                    <TabItem >
+                    <TabItem DataContext="{Binding NameViewModel}">
                         <TabItem.Header>
                             <Label Content="Name" />
                         </TabItem.Header>
@@ -273,10 +337,16 @@
                                 </Grid.ColumnDefinitions>
 
                                 <ComboBox Grid.Column="1"
-                                          Margin="5"/>
+                                          Margin="5" 
+                                          ItemsSource="{Binding Names}"
+                                          SelectedValue="{Binding SelectedNameKey}"
+                                          DisplayMemberPath="Display"
+                                          SelectedValuePath="Key"
+                                          />
                                 <Button Content="Löschen" 
                                         Grid.Column="2" 
-                                        Margin="5"/>
+                                        Margin="5" 
+                                        Command="{Binding DeleteCommand}"/>
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -293,29 +363,34 @@
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <Label 
-                                Grid.Column="1"
-                                Grid.ColumnSpan="2"
-                                Content="Names Datensätze anpassen"
-                                FontSize="20"
-                                Foreground="Chocolate"
-                                HorizontalAlignment="Center"
-                                />
+                                <Label Grid.Column="1"
+                                       Grid.ColumnSpan="2"
+                                       Content="Names Datensätze anpassen"
+                                       FontSize="20"
+                                       Foreground="Chocolate"
+                                       HorizontalAlignment="Center"/>
                                 <Label Grid.Row="1"
-                                   Grid.Column="1"
-                                   FontSize="15"
-                                   Content="Bindewort:" />
+                                       Grid.Column="1"
+                                       FontSize="15"
+                                       Content="Bindewort:" />
                                 <TextBox Grid.Row="1"
-                                     Grid.Column="2"
-                                     Margin="4"
-                                     Padding="3"/>
-
+                                         Grid.Column="2"
+                                         Margin="4"
+                                         Padding="3"
+                                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Text="{Binding SaveError}" 
+                                       Grid.Row="5"
+                                       Grid.Column="1"
+                                       Padding="5,10"
+                                       TextWrapping="Wrap"
+                                       Foreground="Red" />
                                 <Button Grid.Column="2"
-                                    Grid.Row="5"
-                                    Margin="10"
-                                    Padding="5"
-                                    HorizontalAlignment="Right"
-                                    Content="Hinzufügen" />
+                                        Grid.Row="5"
+                                        Margin="10"
+                                        Padding="5"
+                                        HorizontalAlignment="Right"
+                                        Command="{Binding SaveCommand}"
+                                        Content="Hinzufügen"/>
                             </Grid>
                         </DockPanel>
                     </TabItem>
