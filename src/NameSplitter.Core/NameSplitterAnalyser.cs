@@ -31,7 +31,7 @@ namespace NameSplitter.Core
 
             //Note: get corresponding salutation form database
             var salutation = await _context.Salutations
-                .OrderBy(s => s.Content.Length)
+                .OrderByDescending(s => s.Content.Length)
                 .FirstOrDefaultAsync(s => target.ToLower().Contains(s.Content.ToLower()));
             if (salutation is not null && target.StartsWith(salutation.Content + " "))
             {
