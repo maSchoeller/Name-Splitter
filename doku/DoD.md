@@ -1,9 +1,9 @@
 #Definition of Done
 
-Sobald folgende Punkte umgesetzt sind, wird die Idee als "umgesetzt" betrachtet:
+Sobald folgende Punkte umgesetzt sind, wird das Projekt als "umgesetzt" betrachtet:
 
 * der Code ist fertiggstellt und kann kompiliert werden.
-* es gab einen Code Review.
+* es gab ein Code Review.
 * die Akzeptanzkriterien sind erfüllt.
 * die Anwendung wurde mit passenden Tests geprüft.
 * es sind keine kritischen Bugs vorhanden.

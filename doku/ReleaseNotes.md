@@ -5,13 +5,13 @@
 Eingegebene Anreden, werden in folgende Bestandteile/Informationen gesplittet:
 
 * Anrede
-* Standardisierte Briefanrede
 * Titel
 * Geschlecht
 * Vorname
 * Nachname
+* Sprache
  
-Nach dem Eingeben einer Anrede kann eine standardisierte Briefanrede durch den "Anrede generieren"-Knopf erzeugt werden.
+Anschließend wird eine standardisierte Briefanrede durch erzeugt und angezeigt.
 
 ## Der Nutzer hat, nach der automatischen Zuordnung der Informationen, die Möglichkeit der manuellen Anpassung.
 Der Nutzer kann die automatisch generierte Ausgabe der Briefanrede anpassen. 
@@ -22,14 +22,6 @@ Für den Nutzer ist es möglich, nicht erkannte Informationen durch die korrekte
 ## Hinzufügen von Ansprachen
 Der Nutzer kann durch das Hinzufügen von Ansprachen das korrekte Geschlecht für die Briefanrede hinterlegen. Bspw. "Herr" wird als männlich hinterlegt, "Frau" als weiblich und "Damen und Herren" als neutral. 
 
+## Duplikate von Informationen vermeiden
+Der Nutzer kann keine Duplikate von Anreden,Titeln oder Bindewörter hinzufügen.
 
-
-
-
-
-
-
-
-
-
-Bitte hier noch weiteres Hinzufügen --- umgang mit Duplikaten.....
