@@ -31,6 +31,10 @@ namespace NameSplitter.View
 
         }
 
+        public string ConvertTyped(object value)
+        {
+            return Convert(value, null!, null!, null!) as string ?? string.Empty;
+        }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

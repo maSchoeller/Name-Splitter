@@ -17,6 +17,5 @@ namespace NameSplitter.Core.Models
         public string Id { get; set; }
         public string Content { get; set; }
         public AcademicDegree Degree { get; set; }
-        public Language Language { get; set; }
     }
 }

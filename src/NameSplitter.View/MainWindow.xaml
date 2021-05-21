@@ -67,20 +67,30 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <DataGrid Grid.Column="0"
+                          ItemsSource="{Binding AnalyserViewModel.ResultCollection}"
                           AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn
-                                Header="Inhalt"
-                                MinWidth="100"
-                                MaxWidth="200"/>
-                        <DataGridTextColumn
-                    Header="Kategorie"
-                    MinWidth="100"
-                    MaxWidth="200"/>
-                        <DataGridTextColumn
-                    Header="Beschreibung" 
-                    MinWidth="200"
-                    MaxWidth="500"/>
+                        <DataGridTemplateColumn
+                                Header="Key"
+                                MinWidth="200">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding key}"
+                                           
+                                           FontSize="15" 
+                                           Padding="7,2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                                Header="Value"
+                                MinWidth="200">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding value}" FontSize="15" Padding="7,2" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Label Grid.Row="2"
@@ -93,7 +103,7 @@
                          Margin="20,1"
                          Padding="10"
                          FontSize="17"
-                         Text="Sehr geehrter Prof. Dr. Herr Wolfgang amadeus Mozart,"/>
+                         Text="{Binding AnalyserViewModel.Output}"/>
             </Grid>
             <Border Padding="0,10,0,0"
                     Grid.Column="1">
@@ -277,22 +287,6 @@
                                          Margin="4"
                                          Padding="3"
                                          Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Label Grid.Row="2"
-                                       Grid.Column="1"
-                                       FontSize="15"
-                                       Content="Sprache:" />
-                                <ComboBox Grid.Row="2"
-                                          Grid.Column="2"
-                                          Margin="4"
-                                          Padding="5"
-                                          ItemsSource="{Binding Languages}"
-                                          SelectedItem="{Binding SelectedLanguage}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Converter={StaticResource EnumConveter}}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
                                 <Label Grid.Row="3"
                                        Grid.Column="1"
                                        FontSize="13"

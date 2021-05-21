@@ -30,11 +30,6 @@ namespace NameSplitter.View.ViewModels
         private AcademicDegree? _academicDegree;
         public AcademicDegree? SelectedAcademicDegree { get => _academicDegree; set => Set(ref _academicDegree, value); }
 
-
-        public Language[] Languages => Enum.GetValues(typeof(Language)) as Language[] ?? Array.Empty<Language>();
-        private Language? _language;
-        public Language? SelectedLanguage { get => _language; set => Set(ref _language, value); }
-
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
 
@@ -65,22 +60,19 @@ namespace NameSplitter.View.ViewModels
                 var titles = new Title
                 {
                     Content = Title!,
-                    Degree = SelectedAcademicDegree!.Value,
-                    Language = SelectedLanguage!.Value
+                    Degree = SelectedAcademicDegree!.Value
                 };
                 context.Titles.Add(titles);
                 await context.SaveChangesAsync();
                 Title = string.Empty;
                 SelectedAcademicDegree = null;
-                SelectedLanguage = null;
                 await LoadDataAsync();
             }
         }
 
         private bool CanSave(object? o)
             => !string.IsNullOrWhiteSpace(Title)
-            && SelectedAcademicDegree is not null
-            && SelectedLanguage is not null;
+            && SelectedAcademicDegree is not null;
 
         private async void OnDelete(object? o)
         {
