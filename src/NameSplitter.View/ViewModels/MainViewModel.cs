@@ -23,6 +23,7 @@ namespace NameSplitter.View.ViewModels
 
         private IServiceProvider BuildServiceProvider()
         {
+            //Note: Create Dependency Injection Container to handle Service with their dependencies. 
             var collection = new ServiceCollection();
             collection.AddDbContext<NameSplitterDBContext>(opt =>
             {

@@ -22,12 +22,14 @@ namespace NameSplitter.Core
 
         public async Task<NameSplittingResult> AnalyseAsync(string target)
         {
+            //Note: all comparisons above are case insensitive.
             var error = new List<string>();
             var result = new NameSplittingResult
             {
                 IsValid = true
             };
 
+            //Note: get corresponding salutation form database
             var salutation = await _context.Salutations
                 .OrderBy(s => s.Content.Length)
                 .FirstOrDefaultAsync(s => target.ToLower().Contains(s.Content.ToLower()));
@@ -37,6 +39,7 @@ namespace NameSplitter.Core
                 result.Salutation = salutation;
             }
 
+            //Note: get corresponding titles form database
             var titles = await _context.Titles
                 .Where(t => target.ToLower().Contains(t.Content.ToLower()))
                 .OrderByDescending(t => t.Content.Length)
@@ -52,6 +55,8 @@ namespace NameSplitter.Core
             }
             result.Titles = ImmutableArray.Create(resultTitles.ToArray());
 
+
+            //Note: get first- and lastname form target string
             if (target.Contains(",", StringComparison.InvariantCultureIgnoreCase))
             {
                 result.Lastname = target.Substring(0, target.IndexOf(',', StringComparison.InvariantCultureIgnoreCase)).Trim();
