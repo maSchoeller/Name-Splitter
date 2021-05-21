@@ -11,8 +11,7 @@ Als Nutzer möchte ich, dass meine eingegebenen Briefanreden automatisch in ihre
 * Vorname 
 * Nachname
 
-Ich weiß, dass ich fertig bin, wenn:
-* die Informationen bzw. einzelnen Bestandteile aus der Eingabe erkannt und gesondert angezeigt werden.
+Ich weiß, dass ich fertig bin, wenn die Informationen bzw. einzelnen Bestandteile aus der Eingabe erkannt und gesondert angezeigt werden.
 
 ## User Story 2 
 
@@ -28,8 +27,7 @@ Ich weiß, dass ich fertig bin, wenn:
 
 Als Nutzer möchte ich eine Erkennung des Geschlechts durch Beurteilung anhand der Anrede, um die korrekte Anrede in meiner Briefanrede zu erhalten.
 
-Ich weiß, dass ich fertig bin, wenn:
-* ich das korrekte Geschlecht in meiner Briefanrede angezeigt bekomme.
+Ich weiß, dass ich fertig bin, wenn ich das korrekte Geschlecht in meiner Briefanrede angezeigt bekomme.
 
 ## User Story 4
 
