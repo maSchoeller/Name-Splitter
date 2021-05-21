@@ -15,9 +15,10 @@ Der Generator nimmt das Result des Analysers entgegen und generiert auf dessen G
 
 ## Oberfläche
 Es können eigene Anreden, Titel und Bindewörter für den Namen ergänzt oder gelöscht werden.
-Bindewörter sind Wörter, die den Nachnamen einleiten. Beispielsweise 'van' oder 'von'.
-Anreden sind üblicherweise vor den Titeln und Namen angeführt. Beispielsweise 'Herr', 'Frau', 'Mr.', 'Sehr geehrter Herr',...
-Titel sind nach dem akademischen Grad aufgeteilt. In der automatisch generierten Ausgabe wird nur der höchste akademische Grad angeführt.  
+
+* Bindewörter sind Wörter, die den Nachnamen einleiten. Beispielsweise 'van' oder 'von'.
+* Anreden sind üblicherweise vor den Titeln und Namen angeführt. Beispielsweise 'Herr', 'Frau', 'Mr.', 'Sehr geehrter Herr',...
+* Titel sind nach dem akademischen Grad aufgeteilt. In der automatisch generierten Ausgabe wird nur der höchste akademische Grad angeführt.  
 
 ![oberflaeche](./Oberflaeche.png)
 
