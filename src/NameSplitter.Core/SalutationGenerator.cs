@@ -37,7 +37,7 @@ namespace NameSplitter.Core
                 {
                     AcademicDegree.Doctor => "Dr. ",
                     AcademicDegree.Professor => "Prof. ",
-                    _ => "",
+                    _ => deg.Content,
                 };
             }
             resultstring += result.Firstname + " " + result.Lastname;
