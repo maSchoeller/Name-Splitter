@@ -13,8 +13,8 @@ Eingegebene Anreden, werden in folgende Bestandteile/Informationen gesplittet:
  
 Anschließend wird eine standardisierte Briefanrede durch erzeugt und angezeigt.
 
-## Der Nutzer hat, nach der automatischen Zuordnung der Informationen, die Möglichkeit der manuellen Anpassung.
-Der Nutzer kann die automatisch generierte Ausgabe der Briefanrede anpassen. 
+## Briefanrede kann angepasst werden.
+Der Nutzer hat die Möglichkeit die automatisch generierte Ausgabe der Briefanrede anzupassen. 
 
 ## Unbekannte Informationen können eingepflegt werden.
 Für den Nutzer ist es möglich, nicht erkannte Informationen durch die korrekte Kategorisierung für zukünfitge Eingaben zu speichern. Darunter zählen Titel, Bindewörter und Ansprachen.
