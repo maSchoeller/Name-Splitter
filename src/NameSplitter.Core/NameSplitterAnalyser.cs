@@ -26,18 +26,19 @@ namespace NameSplitter.Core
         public async Task<NameSplittingResult> AnalyseAsync(string target)
         {
             var error = new List<string>();
-            var result = new NameSplittingResult();
+            var result = new NameSplittingResult
+            {
+                IsValid = true
+            };
             var context = _provider.GetRequiredService<NameSplitterDBContext>();
 
             var salutation = await context.Salutations
                 .OrderBy(s => s.Content.Length)
-                .FirstOrDefaultAsync(s => target.Contains(s.Content));
+                .FirstOrDefaultAsync(s => target.ToLower().Contains(s.Content.ToLower()));
             if (salutation is not null && target.StartsWith(salutation.Content + " "))
             {
                 target = target.Remove(salutation.Content);
-                result.SalutationForm = salutation.Form;
-                result.Gender = salutation.Gender;
-                result.Language = salutation.Language;
+                result.Salutation = salutation;
             }
             else
             {
@@ -46,13 +47,13 @@ namespace NameSplitter.Core
             }
 
             var titles = await context.Titles
-                .Where(t => target.Contains(t.Content))
+                .Where(t => target.ToLower().Contains(t.Content.ToLower()))
                 .OrderBy(t => t.Content.Length)
                 .ToListAsync(); ;
             var resultTitles = new List<Title>();
             foreach (var title in titles)
             {
-                if (target.Contains(title.Content))
+                if (target.Contains(title.Content, StringComparison.InvariantCultureIgnoreCase))
                 {
                     target = target.Remove(title.Content);
                     resultTitles.Add(title);
@@ -60,19 +61,19 @@ namespace NameSplitter.Core
             }
             result.Titles = ImmutableArray.Create(resultTitles.ToArray());
 
-            if (target.Contains(","))
+            if (target.Contains(",", StringComparison.InvariantCultureIgnoreCase))
             {
-                result.Lastname = target.Substring(0, target.IndexOf(',') - 1);
-                result.Firstname = target.Substring(target.IndexOf(','));
+                result.Lastname = target.Substring(0, target.IndexOf(',', StringComparison.InvariantCultureIgnoreCase) - 1);
+                result.Firstname = target.Substring(target.IndexOf(',', StringComparison.InvariantCultureIgnoreCase));
             }
             else
             {
                 var nameExpansion = await context.NameFillingWords
-                    .FirstOrDefaultAsync(n => target.Contains(n.FillingWord));
+                    .FirstOrDefaultAsync(n => target.ToLower().Contains(n.FillingWord.ToLower()));
                 if (nameExpansion is not null)
                 {
-                    result.Firstname = target.Substring(0, target.IndexOf(nameExpansion.FillingWord));
-                    result.Lastname = target.Substring(target.IndexOf(nameExpansion.FillingWord));
+                    result.Firstname = target.Substring(0, target.IndexOf(nameExpansion.FillingWord, StringComparison.InvariantCultureIgnoreCase));
+                    result.Lastname = target.Substring(target.IndexOf(nameExpansion.FillingWord, StringComparison.InvariantCultureIgnoreCase));
                 }
                 else
                 {
@@ -103,9 +104,7 @@ namespace NameSplitter.Core
             Lastname = string.Empty;
         }
 
-        public Gender Gender { get; internal set; }
-        public SalutationForm SalutationForm { get; internal set; }
-        public Language Language { get; internal set; }
+        public Salutation? Salutation { get; internal set; }
         public ImmutableArray<Title> Titles { get; internal set; }
         public string Firstname { get; internal set; }
         public string Lastname { get; internal set; }

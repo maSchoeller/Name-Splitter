@@ -1,16 +1,21 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
+
+using Microsoft.Extensions.DependencyInjection;
+
+using NameSplitter.Core;
 
 namespace NameSplitter.View.ViewModels
 {
     public class AnalyserViewModel : BindableBase
     {
-        public AnalyserViewModel()
+        private readonly IServiceProvider _provider;
+        public AnalyserViewModel(IServiceProvider provider)
         {
-            SaveCommand = new RelayCommand(OnSave, CanSave);
-            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+            AnalyseCommand = new RelayCommand(OnAnalyseAsync, CanAnalyse);
+            _provider = provider;
         }
-        public ICommand SaveCommand { get; }
-        public ICommand DeleteCommand { get; }
+        public ICommand AnalyseCommand { get; }
 
         private string? _input;
         public string? Input
@@ -19,7 +24,6 @@ namespace NameSplitter.View.ViewModels
             set => Set(ref _input, value);
         }
 
-
         private string? _output;
         public string? Output
         {
@@ -27,24 +31,13 @@ namespace NameSplitter.View.ViewModels
             set => Set(ref _output, value);
         }
 
-        private async void OnSave(object? o)
+        private async void OnAnalyseAsync(object? o)
         {
-
+            var analyser = _provider.GetRequiredService<NameSplitterAnalyser>();
+            var result = await analyser.AnalyseAsync(Input!);
         }
 
-        private bool CanSave(object? o)
-        {
-            return false;
-        }
-
-        private async void OnDelete(object? o)
-        {
-
-        }
-        private bool CanDelete(object? o)
-        {
-            return false;
-        }
-
+        private bool CanAnalyse(object? o) 
+            => !string.IsNullOrWhiteSpace(Input);
     }
 }

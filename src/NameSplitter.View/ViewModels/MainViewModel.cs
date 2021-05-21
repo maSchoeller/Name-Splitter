@@ -28,8 +28,7 @@ namespace NameSplitter.View.ViewModels
             {
                 opt.UseSqlite("Data Source=namesplitter.db");
             });
-
-
+            collection.AddSingleton<NameSplitterAnalyser>();
             return collection.BuildServiceProvider();
         }
 
