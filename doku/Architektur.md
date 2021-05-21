@@ -10,7 +10,7 @@ Als dritte Schicht wird eine Service Schicht eingeführt, sie enthält den Analy
 Der Analyser nimmt die Eingabe entgegen und separiert diese mit Hilfe den Informationen in der Datenbank.
 Als Ergebnis liefert er ein Result Objekt zurück welches die Informationen über die Serparierung enthält.
 
-### SalutatioNGenerator
+### SalutationGenerator
 Der Generator nimmt das Result des Analysers entgegen und generiert auf dessen Grundlage die passende Anrede.
 
 ## Oberfläche
