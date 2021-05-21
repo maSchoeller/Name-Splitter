@@ -3,7 +3,7 @@ using Xunit;
 
 namespace NameSplitter.Tests
 {
-    public class UnitTest1
+    public class NameSplitterTests
     {
         [Fact]
         public void Test1()
