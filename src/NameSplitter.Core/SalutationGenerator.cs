@@ -24,8 +24,8 @@ namespace NameSplitter.Core
                     (Gender.Female, Language.Spain) => "Señora ",
                     (Gender.Male, Language.English) => "Mr. ",
                     (Gender.Female, Language.English) => "Mrs. ",
-                    (Gender.Male, Language.French) => "Mme. ",
-                    (Gender.Female, Language.French) => "M. ",
+                    (Gender.Male, Language.French) => "M. ",
+                    (Gender.Female, Language.French) => "Mme. ",
                     _ => ""
                 };
             }

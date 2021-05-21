@@ -23,4 +23,10 @@
     <ProjectReference Include="..\NameSplitter.Core\NameSplitter.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="namesplitter.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

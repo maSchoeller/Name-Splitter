@@ -20,7 +20,7 @@ namespace NameSplitter.View
                 AcademicDegree.Doctor => "Doktor",
                 AcademicDegree.Professor => "Professor",
                 AcademicDegree.None => "keinen",
-                AcademicDegree.Royal => "royal",
+                AcademicDegree.Royal => "Royal",
                 Language.German => "deutsch",
                 Language.English => "englisch",
                 Language.Spain => "spanisch",

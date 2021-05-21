@@ -1,9 +1,13 @@
-using NameSplitter.Core;
-using NameSplitter.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
+using NameSplitter.Core;
+using NameSplitter.Core.Models;
+
 using Xunit;
 
 namespace NameSplitter.Tests
@@ -11,24 +15,32 @@ namespace NameSplitter.Tests
 
     public class NameSplitterTests
     {
+        private readonly NameSplitterDBContext _dbContext;
+        public NameSplitterTests()
+        {
+            _dbContext = new NameSplitterDBContext(
+                new DbContextOptionsBuilder()
+                    .UseSqlite("Data Source=namesplitter.db")
+                    .Options);
+        }
+
         [Theory]
         [MemberData(nameof(Data))]
         public async Task NameSplittingValidTest(string input, NameSplittingResult expected)
         {
-            var analyser = new NameSplitterAnalyser();
-
+            var analyser = new NameSplitterAnalyser(_dbContext);
             var result = await analyser.AnalyseAsync(input);
-
             Assert.Equal(expected.Firstname, result.Firstname);
             Assert.Equal(expected.Lastname, result.Lastname);
             Assert.Equal(expected.Titles.Length, result.Titles.Length);
             Assert.Equal(expected.IsValid, result.IsValid);
-
-            Assert.Equal(expected.Salutation.Content, result.Salutation.Content);
-            Assert.Equal(expected.Salutation.Form, result.Salutation.Form);
-            Assert.Equal(expected.Salutation.Gender, result.Salutation.Gender);
-            Assert.Equal(expected.Salutation.Language, result.Salutation.Language);
-
+            if (expected.Salutation is not null)
+            {
+                Assert.Equal(expected.Salutation.Content, result.Salutation.Content);
+                Assert.Equal(expected.Salutation.Form, result.Salutation.Form);
+                Assert.Equal(expected.Salutation.Gender, result.Salutation.Gender);
+                Assert.Equal(expected.Salutation.Language, result.Salutation.Language);
+            }
         }
 
         public static IEnumerable<object[]> Data =>
@@ -45,7 +57,6 @@ namespace NameSplitter.Tests
                 },
             new object[] {"Frau Sandra Berger",
                 new NameSplittingResult {
-
                     Firstname = "Sandra",
                     Lastname = "Berger",
                     IsValid = true,
@@ -54,7 +65,6 @@ namespace NameSplitter.Tests
                 },
             new object[] {"Herr Dr. Sandro Gutmensch",
                 new NameSplittingResult {
-
                     Firstname = "Sandro",
                     Lastname = "Gutmensch",
                     IsValid = true,
@@ -63,16 +73,14 @@ namespace NameSplitter.Tests
                 },
             new object[] {"Professor Heinrich Freiherr vom Wald",
                 new NameSplittingResult {
-
                     Firstname = "Heinrich",
                     Lastname = "Freiherr vom Wald",
                     IsValid = true,
-                    Salutation = new Salutation {Content="",Form=SalutationForm.Formal,Gender=Gender.Male,Language=Language.German },
+                    Salutation = null,
                     Titles = ImmutableArray.Create(new[] { new Title() })}
                 },
             new object[] {"Mrs. Doreen Faber",
                 new NameSplittingResult {
-
                     Firstname = "Doreen",
                     Lastname = "Faber",
                     IsValid = true,
@@ -81,7 +89,6 @@ namespace NameSplitter.Tests
                 },
             new object[] {"Mme. Charlotte Noir",
                 new NameSplittingResult {
-
                     Firstname = "Charlotte",
                     Lastname = "Noir",
                     IsValid = true,
@@ -99,7 +106,6 @@ namespace NameSplitter.Tests
                 },
             new object[] {"Herr Dipl. Ing. Max von Müller",
                 new NameSplittingResult {
-
                     Firstname = "Max",
                     Lastname = "von Müller",
                     IsValid = true,
@@ -108,21 +114,19 @@ namespace NameSplitter.Tests
                 },
             new object[] {"Dr. Russwurm, Winfried",
                 new NameSplittingResult {
-
                     Firstname = "Winfried",
                     Lastname = "Russwurm",
                     IsValid = true,
-                    Salutation = new Salutation {Content="",Form=SalutationForm.Formal,Gender=Gender.Male,Language=Language.German },
+                    Salutation = null,
                     Titles = ImmutableArray.Create(new[] { new Title() })}
                 },
             new object[] {"Herr Dr.-Ing. Dr. rer. nat. Dr. h.c.  mult. Paul Steffens",
                 new NameSplittingResult {
-
                     Firstname = "Paul",
                     Lastname = "Steffens",
                     IsValid = true,
                     Salutation = new Salutation {Content="Herr",Form=SalutationForm.Formal,Gender=Gender.Male,Language=Language.German },
-                    Titles = ImmutableArray.Create(new[] { new Title(),new Title(),new Title() })}
+                    Titles = ImmutableArray.Create(new[] { new Title(),new Title(),new Title() ,new Title()})}
                 },
             new object[] {"M. Alexandre Renault",
                 new NameSplittingResult {
