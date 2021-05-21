@@ -1,8 +1,7 @@
 # Tests
 
 ## Unit Test
-Die Unitests sind im Projekt: ``NameSplitter.Tests ``
-Dort Testet die Methode den Analyser mit dem unten stehen Datensätzen.
+Die Unitests sind im Projekt: ``NameSplitter.Tests`` dort Testet die Methode den Analyser mit dem unten stehen Datensätzen.
 
 ## Testdaten
 
